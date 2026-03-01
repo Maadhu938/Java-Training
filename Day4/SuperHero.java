@@ -1,4 +1,4 @@
-//Encapsulation demonstration using SuperHero class
+//Encapsulation demonstration using SuperHero class 
 public class SuperHero{
     private String name;
     private String power;
