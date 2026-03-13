@@ -1,0 +1,234 @@
+1. Class Definition
+class RatMaze {
+
+A class named RatMaze is created.
+
+All variables and methods of the maze program are inside this class.
+
+2. Maze Size
+static int N = 4;
+
+N represents the size of the maze.
+
+The maze is 4 × 4.
+
+static means it belongs to the class and can be used inside static methods.
+
+Maze grid will look like:
+
+4 rows × 4 columns
+3. Recursive Function to Solve Maze
+static boolean solveMaze(int maze[][], int x, int y, int sol[][])
+
+This function tries to find a path from start (0,0) to destination (3,3).
+
+Parameters
+Parameter	Meaning
+maze[][]	Original maze
+x	Current row position
+y	Current column position
+sol[][]	Solution matrix storing path
+
+Return type:
+
+boolean
+
+true → path found
+
+false → path not found
+
+4. Destination Condition
+if (x == N-1 && y == N-1 && maze[x][y] == 1)
+
+Meaning:
+
+Check if the rat reached bottom-right corner (3,3).
+
+Also check if that cell is open (1).
+
+If true:
+
+sol[x][y] = 1;
+return true;
+
+Mark destination in solution path
+
+Stop recursion
+
+5. Check Safe Cell
+if (x >= 0 && y >= 0 && x < N && y < N && maze[x][y] == 1)
+
+This checks whether the rat can move to the cell.
+
+Conditions:
+
+Condition	Meaning
+x >= 0	inside maze
+y >= 0	inside maze
+x < N	inside maze
+y < N	inside maze
+maze[x][y] == 1	path is open
+
+If all true → safe to move
+
+6. Mark Current Cell in Path
+sol[x][y] = 1;
+
+Mark this cell as part of the path.
+
+Example:
+
+1 → path
+0 → not used
+7. Move Down
+if (solveMaze(maze, x+1, y, sol))
+    return true;
+
+Rat tries to move DOWN.
+
+(x,y) → (x+1,y)
+
+If the recursive call finds the destination → stop and return true.
+
+8. Move Right
+if (solveMaze(maze, x, y+1, sol))
+    return true;
+
+If moving down didn't work, rat tries RIGHT.
+
+(x,y) → (x,y+1)
+9. Backtracking Step
+sol[x][y] = 0;
+return false;
+
+If neither down nor right works:
+
+Remove the cell from solution
+
+Go back to previous position
+
+This is Backtracking.
+
+Example:
+
+Wrong path → undo step → try another path
+10. If Cell is Invalid
+return false;
+
+If the cell is:
+
+outside maze
+
+blocked (0)
+
+then return false.
+
+11. Printing Solution Matrix
+static void printSolution(int sol[][])
+
+This function prints the final path matrix.
+
+Loop through matrix:
+
+for (int i = 0; i < N; i++)
+
+Row loop
+
+for (int j = 0; j < N; j++)
+
+Column loop
+
+Print each element:
+
+System.out.print(sol[i][j] + " ");
+12. Main Method
+public static void main(String args[])
+
+Program execution starts here.
+
+13. Maze Input
+int maze[][] = {
+    {1,0,0,0},
+    {1,1,0,1},
+    {0,1,0,0},
+    {1,1,1,1}
+};
+
+Meaning:
+
+1 → path allowed
+0 → blocked
+
+Maze:
+
+1 0 0 0
+1 1 0 1
+0 1 0 0
+1 1 1 1
+14. Solution Matrix
+int sol[][] = new int[N][N];
+
+Creates empty matrix:
+
+0 0 0 0
+0 0 0 0
+0 0 0 0
+0 0 0 0
+
+This will store the correct path.
+
+15. Start Solving Maze
+if (solveMaze(maze,0,0,sol))
+
+Start from top-left corner (0,0).
+
+If path found:
+
+printSolution(sol);
+
+Otherwise:
+
+System.out.println("No solution");
+16. Final Output
+
+Solution matrix printed:
+
+1 0 0 0
+1 1 0 0
+0 1 0 0
+0 1 1 1
+
+This shows the path taken by the rat.
+
+17. Path Visualization
+Start → (0,0)
+↓
+(1,0)
+→
+(1,1)
+↓
+(2,1)
+↓
+(3,1)
+→
+(3,2)
+→
+(3,3) Destination
+18. Algorithm Used
+
+This program uses:
+
+Backtracking
+
+Strategy:
+
+Try path
+If fails → go back
+Try another path
+19. Time Complexity
+
+Worst case:
+
+O(2^(N²))
+
+because each cell may explore two directions.
